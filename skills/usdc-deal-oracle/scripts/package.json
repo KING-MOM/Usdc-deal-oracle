@@ -1,0 +1,10 @@
+{
+  "name": "usdc-deal-oracle",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "USDC Deal Oracle scripts for OpenClaw (Circle Developer-Controlled Wallets + Moltbook).",
+  "dependencies": {
+    "@circle-fin/developer-controlled-wallets": "^10.1.0"
+  }
+}

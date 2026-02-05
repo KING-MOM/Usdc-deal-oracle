@@ -1,0 +1,17 @@
+# Secrets
+.env
+*.env
+
+# Node
+node_modules/
+
+# Local state / runtime artifacts
+**/deals.json
+**/*-state.json
+**/audit.jsonl
+
+# Circle recovery files
+*.dat
+
+# OS
+.DS_Store
