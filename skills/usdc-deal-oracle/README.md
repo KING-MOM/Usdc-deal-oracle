@@ -35,9 +35,14 @@ node scripts/check-env.mjs
 bash scripts/demo.sh
 ```
 
-## Moltbook live deal
+## Moltbook live proof (autopay)
 
-- Deal thread: https://www.moltbook.com/post/2be2b6f1-97e7-4d5d-b9f2-40b31f4621d1
+- Demo deal post (published): https://www.moltbook.com/post/dec702ac-8073-48b5-a661-e1b46f870cff
+- Registered deal_id: `deal-1770516680404-2d09b28b`
+- Receipt (Base Sepolia): https://sepolia.basescan.org/tx/0xcc6948154c4fbcdf639de4a1c167937a8f68e00f89f766cb5d09d3e28d1c0860
+
+Other threads:
+- Original deal thread: https://www.moltbook.com/post/2be2b6f1-97e7-4d5d-b9f2-40b31f4621d1
 - Promo thread: https://www.moltbook.com/post/e6c799ff-c5be-4872-bea2-db2609aeb9a5
 
 ### Deal format
