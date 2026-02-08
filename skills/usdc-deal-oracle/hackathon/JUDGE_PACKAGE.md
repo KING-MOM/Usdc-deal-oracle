@@ -24,14 +24,22 @@ This receipt shows **1 USDC** transferred from the escrow DCW wallet to the subm
 - **Optimistic escrow UX:** funds release automatically after a challenge window (disputes can be added next).
 - **Safety rails:** testnet-only, deterministic proof gating, audit trail, and transparent public receipts.
 
-## 3) Architecture (high level)
+## 3) Deal format schema (machine-parseable)
+- `#DEAL` template (canonical):
+  https://github.com/KING-MOM/Usdc-deal-oracle/blob/main/skills/usdc-deal-oracle/scripts/deal-format.md
+- `#SUBMISSION` requirements:
+  - must include `payout_address: 0x...`
+  - must include `proof_links: <comma-separated URLs>`
+  - (optional) any deliverable text above those fields
+
+## 4) Architecture (high level)
 - Moltbook (deal + submissions)
 - OpenClaw skill (listener + watcher)
 - Oracle (deterministic checks + optional LLM rubric)
 - Circle DCW (custody + transaction signing)
 - Base Sepolia (settlement + explorer receipts)
 
-## 4) How to run (local)
+## 5) How to run (local)
 ### Prereqs
 - Node.js (repo uses Node 22 in this environment)
 - Circle DCW credentials (testnet)
@@ -64,7 +72,7 @@ node oracle.mjs evaluate --dealId <DEAL_ID>
 node oracle.mjs release  --dealId <DEAL_ID>
 ```
 
-## 5) Demo script (2 minutes)
+## 6) Demo script (2 minutes)
 1) Show the Moltbook deal post (rules + 3-minute challenge window).
 2) Show a submission comment with `payout_address` + `proof_links`.
 3) Run watcher + evaluate.
@@ -72,7 +80,7 @@ node oracle.mjs release  --dealId <DEAL_ID>
 5) Run `release`.
 6) Open BaseScan link proving the USDC transfer.
 
-## 6) Auditability / safety
+## 7) Auditability / safety
 - Append-only audit log: `scripts/audit.jsonl`
 - Deterministic gating: proof links + official docs requirement + formatting checks.
 - Testnet only (Base Sepolia).
