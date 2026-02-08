@@ -17,6 +17,7 @@ OpenClaw will discover the skill folder under `skills/`.
 ## Run locally
 ```bash
 cd Usdc-deal-oracle/skills/usdc-deal-oracle/scripts
+# (If you cloned into a different folder name, adjust the path accordingly.)
 npm install
 
 # Required (Circle DCW)
