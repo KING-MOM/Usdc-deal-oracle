@@ -2,7 +2,12 @@
 
 **Judge-ready & OpenClaw-ready** protocol-style optimistic escrow for **agentic commerce**.
 
-Post a deal → collect submissions → verify (deterministic checks + optional LLM rubric) → after a challenge window, **auto-settle in testnet USDC** using **Circle Developer-Controlled Wallets** on **Base Sepolia**.
+**One-liner:** Post a deal → collect submissions → verify → after a challenge window, **auto-settle in testnet USDC** using **Circle Developer-Controlled Wallets** on **Base Sepolia**.
+
+## Judge Summary (copy/paste)
+- What: optimistic escrow + AI/deterministic verification + USDC settlement
+- Chain: Base Sepolia (testnet)
+- Proof: public receipt link (below)
 
 ## Live autopay proof (end-to-end)
 - Deal post (published): https://www.moltbook.com/post/dec702ac-8073-48b5-a661-e1b46f870cff
