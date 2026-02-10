@@ -325,7 +325,7 @@ async function evaluate({ dealId, submissionId }) {
   return { ok: true, evaluated: targets.map(t => t.submission_id) };
 }
 
-async function release({ dealId }) {
+async function release({ dealId, dryRun }) {
   if (!dealId) throw new Error('Missing --dealId');
 
   const deals = readDeals();
@@ -367,6 +367,31 @@ async function release({ dealId }) {
 
   const payout = best.payout_address;
   if (!payout) throw new Error('Winner missing payout address.');
+
+  // Dry-run mode: compute the winner + eligibility, but do not touch Circle.
+  if (String(dryRun ?? 'false') === 'true') {
+    const escrowWalletId = process.env.ESCROW_WALLET_ID || null;
+    logAudit('RELEASE_DRY_RUN', {
+      deal_id: dealId,
+      winner_submission_id: best.submission_id,
+      winner_payout_address: payout,
+      score: best.evaluation.score,
+      amount: deal.amount,
+      escrow_wallet_id: escrowWalletId
+    });
+    return {
+      dry_run: true,
+      would_release: true,
+      deal_id: dealId,
+      winner_submission_id: best.submission_id,
+      winner_payout_address: payout,
+      score: best.evaluation.score,
+      amount: deal.amount,
+      token: 'USDC',
+      escrow_wallet_id: escrowWalletId,
+      note: 'Dry-run: no Circle transaction created.'
+    };
+  }
 
   const client = getCircleClient();
   const escrowWalletId = requireEnv('ESCROW_WALLET_ID');
@@ -443,7 +468,7 @@ async function main() {
 
   try {
     if (!cmd || cmd === 'help') {
-      console.log(`USDC Deal Oracle\n\nCommands:\n  create   --title --amount --requirements [--challengeMinutes 60] [--requireProofLinks true] [--requireOfficialDocs true]\n  submit   --dealId --submissionText [--proofLinks url1,url2] [--payoutAddress 0x..]\n  evaluate --dealId [--submissionId sub-...]\n  release  --dealId\n  dispute  --dealId --reason "..."\n  status   [--dealId]\n`);
+      console.log(`USDC Deal Oracle\n\nCommands:\n  create   --title --amount --requirements [--challengeMinutes 60] [--requireProofLinks true] [--requireOfficialDocs true]\n  submit   --dealId --submissionText [--proofLinks url1,url2] [--payoutAddress 0x..]\n  evaluate --dealId [--submissionId sub-...]\n  release  --dealId [--dryRun true]\n  dispute  --dealId --reason "..."\n  status   [--dealId]\n`);
       process.exit(0);
     }
 
@@ -478,7 +503,7 @@ async function main() {
     }
 
     if (cmd === 'release') {
-      const out = await release({ dealId: args.dealId });
+      const out = await release({ dealId: args.dealId, dryRun: args.dryRun });
       console.log(JSON.stringify(out, null, 2));
       return;
     }
