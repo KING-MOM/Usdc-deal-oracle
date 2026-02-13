@@ -26,7 +26,10 @@ Install into OpenClaw by copying the folder into your OpenClaw workspace skills 
 cd skills/usdc-deal-oracle/scripts
 npm install
 
-# export Circle env vars (DO NOT COMMIT)
+# 2-minute dry-run (no Circle creds, no chain tx; shows the full flow)
+bash demo-dry.sh
+
+# Full end-to-end autopay demo (requires Circle DCW env vars; DO NOT COMMIT)
 export CIRCLE_API_KEY=...
 export CIRCLE_ENTITY_SECRET=...
 export ESCROW_WALLET_ID=...

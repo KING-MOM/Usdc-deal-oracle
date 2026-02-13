@@ -20,7 +20,10 @@ cd Usdc-deal-oracle/skills/usdc-deal-oracle/scripts
 # (If you cloned into a different folder name, adjust the path accordingly.)
 npm install
 
-# Required (Circle DCW)
+# 2-minute dry-run (no Circle creds, no chain tx; shows the full flow)
+bash demo-dry.sh
+
+# Full end-to-end autopay demo (requires Circle DCW env vars)
 export CIRCLE_API_KEY=...
 export CIRCLE_ENTITY_SECRET=...
 export ESCROW_WALLET_ID=...
