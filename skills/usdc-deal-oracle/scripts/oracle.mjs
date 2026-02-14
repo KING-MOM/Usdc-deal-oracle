@@ -25,7 +25,8 @@ import path from 'node:path';
 import process from 'node:process';
 import crypto from 'node:crypto';
 
-import { initiateDeveloperControlledWalletsClient } from '@circle-fin/developer-controlled-wallets';
+// NOTE: Circle SDK is lazy-imported inside getCircleClient() so non-release commands (evaluate/status/etc)
+// can run without installing Circle deps.
 import { logAudit } from './logger.mjs';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -59,9 +60,17 @@ function requireEnv(name) {
   return v;
 }
 
-function getCircleClient() {
+async function getCircleClient() {
   const apiKey = requireEnv('CIRCLE_API_KEY');
   const entitySecret = requireEnv('CIRCLE_ENTITY_SECRET');
+
+  // Lazy import so the rest of the CLI works without Circle installed.
+  const mod = await import('@circle-fin/developer-controlled-wallets');
+  const initiateDeveloperControlledWalletsClient = mod?.initiateDeveloperControlledWalletsClient;
+  if (typeof initiateDeveloperControlledWalletsClient !== 'function') {
+    throw new Error('Circle SDK not available: @circle-fin/developer-controlled-wallets not installed. Run `npm install` in skills/usdc-deal-oracle/scripts/.');
+  }
+
   return initiateDeveloperControlledWalletsClient({ apiKey, entitySecret });
 }
 
@@ -393,7 +402,7 @@ async function release({ dealId, dryRun }) {
     };
   }
 
-  const client = getCircleClient();
+  const client = await getCircleClient();
   const escrowWalletId = requireEnv('ESCROW_WALLET_ID');
 
   // Resolve tokenId for USDC (avoid accidentally selecting native gas token).
